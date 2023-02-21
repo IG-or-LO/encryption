@@ -4,5 +4,10 @@
         <file>resources/img/fone2.png</file>
         <file>resources/img/cross.png</file>
         <file>resources/img/cross2.png</file>
+        <file>resources/img/ceaser.jpeg</file>
+        <file>resources/img/Trithemius.jpg</file>
+        <file>resources/img/viginer.jpeg</file>
+        <file>resources/img/permutation.png</file>
+        <file>resources/img/rsa.png</file>
     </qresource>
 </RCC>

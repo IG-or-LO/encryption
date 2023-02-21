@@ -16,6 +16,11 @@ public:
     static QString getTextEditOutStyle();
     static QString getButtonsStyle();
     static QString getComboBoxStyle();
+    static QString getCeaserLableStyle();
+    static QString getTrithemiusLableStyle();
+    static QString getVigenerLableStyle();
+    static QString getPermutationLableStyle();
+    static QString getRsaLableStyle();
 };
 
 #endif // STYLEHELPER_H

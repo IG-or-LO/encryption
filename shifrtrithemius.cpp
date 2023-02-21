@@ -13,9 +13,6 @@ void shifrTrithemius::setlanquage(int lanq)
         lanquage_size=RU;
     else if(lanq==1)
         lanquage_size=EN;
-    else if(lanq==2)
-        lanquage_size=RU2;
-    qDebug()<<"размер букваря-"<<lanquage_size;
 
 }
 
@@ -26,8 +23,6 @@ int shifrTrithemius::getCharkey(QChar ch)
         break;
     case EN: return mapEn.value(ch);
         break;
-    case RU2: return mapRu2.value(ch);
-        break;
     }
 }
 
@@ -37,8 +32,6 @@ QString shifrTrithemius::getChar(int value)
     case RU: return mapRu.key(value);
         break;
     case EN: return mapEn.key(value);
-        break;
-    case RU2: return mapRu2.key(value);
         break;
     }
 

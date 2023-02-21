@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QKeyEvent>
+//myIncludes
 #include <stringhelper.h>
 #include <stylehelper.h>
 #include <shifrCaeser.h>
@@ -23,6 +25,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+protected:
+    void keyPressEvent(QKeyEvent *e) override;
 
 private slots:
     void on_pb_Caesar_shifr_clicked();
@@ -46,7 +50,6 @@ private slots:
     void on_pb_Permutation_shifr_clicked();
 
     void on_pb_Permutation_RasShifr_clicked();
-
 
     void on_pb_Rsa_genKey_clicked();
 
@@ -73,7 +76,6 @@ private:
 
     void setInterfaceStyle();
     void setTabWidgetStyle();
-    bool checkSizeCodeNum();
     void messError(QString mess);
 };
 #endif // MAINWINDOW_H

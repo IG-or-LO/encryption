@@ -19,11 +19,30 @@ MainWindow::MainWindow(QWidget *parent)
 
     setTabWidgetStyle();
     setInterfaceStyle();
+ //   ui->te_Caesar_in->setVerticalScrollBar();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    if(e->key()==Qt::Key_Left)
+    {
+        if(ui->tabWidget->currentIndex()==0)
+            ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
+        else
+            ui->tabWidget->setCurrentIndex(ui->tabWidget->currentIndex()-1);
+    }
+    else if(e->key()==Qt::Key_Right)
+    {
+        if(ui->tabWidget->currentIndex()==ui->tabWidget->count()-1)
+            ui->tabWidget->setCurrentIndex(0);
+        else
+            ui->tabWidget->setCurrentIndex(ui->tabWidget->currentIndex()+1);
+    }
 }
 
 
@@ -48,26 +67,32 @@ void MainWindow::setInterfaceStyle()
 {
     //labelsStyle
     ui->la_Caesar_bias->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_Caesar_img->setStyleSheet(stylehelper::getCeaserLableStyle());
     ui->la_Caesar_lanq->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Caesar_res->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Caesar_text->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_Permutation_img->setStyleSheet(stylehelper::getPermutationLableStyle());
     ui->la_Permutation_code->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Permutation_res->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Permutation_text->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_Rsa_img->setStyleSheet(stylehelper::getRsaLableStyle());
     ui->la_Rsa_addCLoseKey->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Rsa_addOpenKey->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Rsa_genKey->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Rsa_lanq->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Rsa_res->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Rsa_text->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_Trithemius_img->setStyleSheet(stylehelper::getTrithemiusLableStyle());
     ui->la_Trithemius_code->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Trithemius_lanq->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Trithemius_res->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Trithemius_text->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_Vigener_img->setStyleSheet(stylehelper::getVigenerLableStyle());
     ui->la_Vigener_code->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Vigener_lanq->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Vigener_res->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Vigener_text->setStyleSheet(stylehelper::getLablesStyle());
+
     //checkbox
     ui->cb_Rsa_KeysAutoFill->setStyleSheet(stylehelper::getCheckBoxStyle());
     //spinbox
@@ -114,22 +139,13 @@ void MainWindow::setInterfaceStyle()
     ui->cb_Trithemius_lanq->setStyleSheet(stylehelper::getComboBoxStyle());
     ui->cb_Vigener_lanq->setStyleSheet(stylehelper::getComboBoxStyle());
 
-
-
-
 }
 
 
-bool MainWindow::checkSizeCodeNum()
-{
-    if(ui->te_Trithemius_code->toPlainText().size()==SIZECODE)
-        return true;
-    else
-        return false;
-}
 
 void MainWindow::messError(QString mess)
 {
+
     QMessageBox msgBox;
     msgBox.setWindowTitle("Ошибка");
     msgBox.setText(mess);
@@ -162,25 +178,14 @@ void MainWindow::on_cb_Caesar_lanq_currentIndexChanged(int index)
 
 void MainWindow::on_pb_Trithemius_shifr_clicked()
 {
-    QString messErr="Нужно 7 символов для кодируемого слова!" ;
-    if(checkSizeCodeNum())
-        {
         QString str;
         QString strcode;
-        if(ui->cb_Trithemius_lanq->currentIndex()==2)
-        {
-            str=_strHelper.changeChar("ё","е",ui->te_Trithemius_in->toPlainText().toLower());
-            strcode=_strHelper.changeChar("ё","е",ui->te_Trithemius_code->toPlainText().toLower());
-        }
-        else
-        {
-            str=ui->te_Trithemius_in->toPlainText().toLower();
-            strcode=ui->te_Trithemius_code->toPlainText().toLower();
-        }
+
+        str=ui->te_Trithemius_in->toPlainText().toLower();
+        strcode=ui->te_Trithemius_code->toPlainText().toLower();
+
         ui->te_Trithemius_out->setPlainText(_shifrTrithemius.makeShifrString(str,strcode));
-    }
-    else
-        messError(messErr);
+
 }
 
 void MainWindow::on_pb_Trithemius_RasShifr_clicked()
