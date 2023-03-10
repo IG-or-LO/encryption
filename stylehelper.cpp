@@ -30,7 +30,19 @@ QString stylehelper::getTabsStyle()
                               "} "
            "QWidget#RSA {"
                       " border-image: url(:/resources/img/fone2.png) 0 0 0 0 stretch stretch;"
-           "} ";
+           "} "
+           "QWidget#ShenonFano {"
+                      " border-image: url(:/resources/img/fone2.png) 0 0 0 0 stretch stretch;"
+           "} "
+           "QWidget#ParityCheck {"
+                      " border-image: url(:/resources/img/fone2.png) 0 0 0 0 stretch stretch;"
+           "} "
+           "QWidget#TIN {"
+                      " border-image: url(:/resources/img/fone2.png) 0 0 0 0 stretch stretch;"
+           "} "
+            "QWidget#wt_TIN {"
+                       " border-image: url(:/resources/img/TIN.png) 0 0 0 0 stretch stretch;"
+            "} ";
 }
 
 QString stylehelper::getLablesStyle()
@@ -199,4 +211,82 @@ QString stylehelper::getRsaLableStyle()
             "border-image: url(:/resources/img/rsa.png) 0 0 0 0 stretch stretch;"
             "border-radius:20px;"
            "}";
+}
+
+QString stylehelper::getTableWidgetStyle()
+{
+    return "QTableWidget {"
+            "selection-background-color: qlineargradient(spread:repeat, x1:0, y1:0, x2:0, y2:0.29, stop:0 rgba(146, 0, 137, 255), stop:1 rgba(18, 153, 211, 255));"
+            "background-color: qlineargradient(spread:pad, x1:0.51705, y1:0, x2:0.527, y2:1, stop:1 rgba(94, 195, 225, 255));"
+            "color:#760eab;"
+            "font-weight: 600;"
+            "font-family: 'Roboto-Medium';"
+            "font-size:18px;"
+            "border:1px solid #c3c3c3;"
+            "border-radius:5px;"
+           "}"
+            "QTableWidget QTableCornerButton::section{"
+            "background-color: qlineargradient(spread:pad, x1:0.51705, y1:0, x2:0.527, y2:1, stop:1 rgba(94, 195, 225, 255));"
+            "}"
+            "QHeaderView {"
+            "background-color: qlineargradient(spread:pad, x1:0.51705, y1:0, x2:0.527, y2:1, stop:1 rgba(94, 195, 225, 255));"
+            "font-weight: 600;"
+            "font-family: 'Roboto-Medium';"
+            "font-size:16px;"
+            "}"
+            ;
+}
+
+QString stylehelper::getShenonFanoLableStyle()
+{
+    return "QLabel{"
+            "border-image: url(:/resources/img/shenon.jpg) 0 0 0 0 stretch stretch;"
+            "border-radius:20px;"
+           "}";
+}
+
+QString stylehelper::getLineEditStyle()
+{
+    return "QLineEdit {"
+            "background: qlineargradient(spread:pad, x1:0.51705, y1:0, x2:0.527, y2:1, stop:1 rgba(94, 195, 225, 255));"
+            "color:#760eab;"
+            "border-radius:20px;"
+            "padding:10px;"
+            "font-weight: 600;"
+           "font-family: 'Roboto-Medium';"
+           "font-size:18px;"
+           "}";
+}
+
+QString stylehelper::getLineEditTINStyle()
+{
+    return "QLineEdit {"
+            "background: white;"
+            "color:black;"
+            "border-radius:20px;"
+            "padding:5px;"
+            "font-weight: 400;"
+           "font-family: 'Roboto-Medium';"
+           "font-size:12px;"
+           "}";
+}
+
+QString stylehelper::getRadioButtonStyle()
+{
+    return "QRadioButton {"
+            "color:white;"
+           "font-family: 'Roboto-Medium';"
+            "border:none;"
+            "font-weight: 600;"
+            "background:  qlineargradient(spread:reflect, x1:1, y1:0.533818, x2:1, y2:0, stop:0.375 rgba(0, 83, 67, 255), stop:1 rgba(0, 0, 14, 255));"
+           "font-size:20px;"
+           "}";
+}
+
+QString stylehelper::getTINLableStyle()
+{
+    return "QLabel{"
+            "border-image: url(:/resources/img/nalog.jpg) 0 0 0 0 stretch stretch;"
+            "border-radius:20px;"
+            "}";
 }

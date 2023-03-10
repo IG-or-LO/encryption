@@ -48,15 +48,10 @@ int Rsa::getEllerFunction(int primeF, int primeS)
 
 int Rsa::getFirstCloseKey(int firstOpenKey, int ellerFunction)
 {
-    int firstCloseKey=0;
     for (int i=2;i <ellerFunction; ++i) {
       if(  (firstOpenKey*i)%ellerFunction==1)
-      {
-          firstCloseKey=i;
-          break;
-      }
+          return i;
     }
-    return firstCloseKey;
 }
 
 int Rsa::getCharkey(QChar ch)

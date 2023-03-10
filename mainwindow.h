@@ -11,6 +11,9 @@
 #include <shifrvigenera.h>
 #include <tablepermutation.h>
 #include <rsa.h>
+#include <shenonfano.h>
+#include <paritycheck.h>
+#include <tin.h>
 
 #define SIZECODE 7
 
@@ -63,6 +66,20 @@ private slots:
 
     void on_pb_Rsa_saveResult_clicked();
 
+    void on_pb_ShenonFano_fillTable_clicked();
+
+    void on_pb_ParityCheck_convert_clicked();
+
+    void on_pb_ParityCheck_Reconvert_clicked();
+
+    void on_rb_TIN_individual_clicked();
+
+    void on_rb_TIN_entity_clicked();
+
+    void on_pb_TIN_makeNum_clicked();
+
+    void on_pb_TIN_makeRandom_clicked();
+
 private:
     Ui::MainWindow *ui;
     stylehelper _styleHelper;
@@ -72,10 +89,19 @@ private:
     shifrTrithemius _shifrTrithemius;
     tablePermutation _tablePerm;
     Rsa _Rsa;
+    ShenonFano _ShenonFano;
+    ParityCheck _parityCheck;
+    TIN _Tin;
+
     int *RsaKeys;
+    double *probabilityShenon;
+    QString *codeCharShenonFano;
 
     void setInterfaceStyle();
     void setTabWidgetStyle();
+    void setShenonFanoTableWidgetStyle(int rowCount);
     void messError(QString mess);
+    void reqursiaShenon(int start,int end,bool topORbot);
+    void setCodeCharShenonFano(int indexStr,bool oneORzero);
 };
 #endif // MAINWINDOW_H

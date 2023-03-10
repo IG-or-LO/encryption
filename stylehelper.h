@@ -21,6 +21,13 @@ public:
     static QString getVigenerLableStyle();
     static QString getPermutationLableStyle();
     static QString getRsaLableStyle();
+    static QString getTableWidgetStyle();
+    static QString getShenonFanoLableStyle();
+    static QString getLineEditStyle();
+    static QString getLineEditTINStyle();
+    static QString getRadioButtonStyle();
+    static QString getTINLableStyle();
+
 };
 
 #endif // STYLEHELPER_H

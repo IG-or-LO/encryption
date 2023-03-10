@@ -6,8 +6,9 @@
 #include <QFile>
 #include <QInputDialog>
 #include <QDir>
-
-
+#include <QRegExp>
+//todelete
+#include<QTextCodec>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,12 +20,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     setTabWidgetStyle();
     setInterfaceStyle();
- //   ui->te_Caesar_in->setVerticalScrollBar();
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+//    delete RsaKeys;
+//    delete probabilityShenon;
+//    delete codeCharShenonFano;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
@@ -45,12 +49,14 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     }
 }
 
-
 void MainWindow::setTabWidgetStyle()
 {
     ui->tabWidget->setTabText(2,"Vigener");
     ui->tabWidget->setTabText(3,"Permutation");
     ui->tabWidget->setTabText(4,"RSA");
+    ui->tabWidget->setTabText(5,"Shenon-Fano");
+    ui->tabWidget->setTabText(6,"Parity Bit");
+    ui->tabWidget->setTabText(7,"TIN");
 
     ui->centralwidget->setStyleSheet(stylehelper::getCentralWidgetStyle());
     //styles
@@ -61,6 +67,14 @@ void MainWindow::setTabWidgetStyle()
     ui->Vigener->setStyleSheet(stylehelper::getTabsStyle());
     ui->tablePermutation->setStyleSheet(stylehelper::getTabsStyle());
     ui->RSA->setStyleSheet(stylehelper::getTabsStyle());
+    ui->ShenonFano->setStyleSheet(stylehelper::getTabsStyle());
+    ui->ParityCheck->setStyleSheet(stylehelper::getTabsStyle());
+    ui->TIN->setStyleSheet(stylehelper::getTabsStyle());
+    ui->wt_TIN->setStyleSheet(stylehelper::getTabsStyle());
+
+    //etc params
+    ui->le_TIN_in->setInputMask("0_0_0_0_0_0_0_0_0_0");
+    ui->le_TIN_out->setInputMask("0_0_0_0_0_0_0_0_0_0_0_0");
 }
 
 void MainWindow::setInterfaceStyle()
@@ -92,13 +106,29 @@ void MainWindow::setInterfaceStyle()
     ui->la_Vigener_lanq->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Vigener_res->setStyleSheet(stylehelper::getLablesStyle());
     ui->la_Vigener_text->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_ShenonFano_img->setStyleSheet(stylehelper::getShenonFanoLableStyle());
+    ui->la_ShenonFano_text->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_ShenonFano_res->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_ParityCheck_text->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_ParityCheck_res->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_TIN_numbers->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_TIN_res->setStyleSheet(stylehelper::getLablesStyle());
+    ui->la_TIN_img->setStyleSheet(stylehelper::getTINLableStyle());
 
+    //lineedit
+    ui->le_TIN_in->setStyleSheet(stylehelper::getLineEditStyle());
+    ui->le_TIN_out->setStyleSheet(stylehelper::getLineEditTINStyle());
+    //tablewidget
+    ui->tw_ShenonFano->setStyleSheet(stylehelper::getTableWidgetStyle());
     //checkbox
     ui->cb_Rsa_KeysAutoFill->setStyleSheet(stylehelper::getCheckBoxStyle());
     //spinbox
     ui->spin_Caesar->setStyleSheet(stylehelper::getSpinBoxStyle());
-    //textedit
+    //radioButton
+    ui->rb_TIN_entity->setStyleSheet(stylehelper::getRadioButtonStyle());
+    ui->rb_TIN_individual->setStyleSheet(stylehelper::getRadioButtonStyle());
 
+    //textedit
     ui->te_Caesar_in->setStyleSheet(stylehelper::getTextEditStyle());
     ui->te_Caesar_out->setStyleSheet(stylehelper::getTextEditOutStyle());
     ui->te_Permutation_code->setStyleSheet(stylehelper::getTextEditStyle());
@@ -117,6 +147,9 @@ void MainWindow::setInterfaceStyle()
     ui->te_Vigener_code->setStyleSheet(stylehelper::getTextEditStyle());
     ui->te_Vigener_in->setStyleSheet(stylehelper::getTextEditStyle());
     ui->te_Vigener_out->setStyleSheet(stylehelper::getTextEditOutStyle());
+    ui->te_ShenonFano_in->setStyleSheet(stylehelper::getTextEditStyle());
+    ui->te_ParityCheck_in->setStyleSheet(stylehelper::getTextEditStyle());
+    ui->te_ParityCheck_out->setStyleSheet(stylehelper::getTextEditOutStyle());
 
     //buttons
     ui->pb_Caesar_RasShifr->setStyleSheet(stylehelper::getButtonsStyle());
@@ -132,16 +165,19 @@ void MainWindow::setInterfaceStyle()
     ui->pb_Trithemius_shifr->setStyleSheet(stylehelper::getButtonsStyle());
     ui->pb_Vigener_RasShifr->setStyleSheet(stylehelper::getButtonsStyle());
     ui->pb_Vigener_shifr->setStyleSheet(stylehelper::getButtonsStyle());
+    ui->pb_ShenonFano_fillTable->setStyleSheet(stylehelper::getButtonsStyle());
+    ui->pb_ShenonFano_saveCode->setStyleSheet(stylehelper::getButtonsStyle());
+    ui->pb_ParityCheck_convert->setStyleSheet(stylehelper::getButtonsStyle());
+    ui->pb_ParityCheck_Reconvert->setStyleSheet(stylehelper::getButtonsStyle());
+    ui->pb_TIN_makeNum->setStyleSheet(stylehelper::getButtonsStyle());
+    ui->pb_TIN_makeRandom->setStyleSheet(stylehelper::getButtonsStyle());
 
     //combobox
     ui->cb_Caesar_lanq->setStyleSheet(stylehelper::getComboBoxStyle());
     ui->cb_Rsa_lanq->setStyleSheet(stylehelper::getComboBoxStyle());
     ui->cb_Trithemius_lanq->setStyleSheet(stylehelper::getComboBoxStyle());
     ui->cb_Vigener_lanq->setStyleSheet(stylehelper::getComboBoxStyle());
-
 }
-
-
 
 void MainWindow::messError(QString mess)
 {
@@ -215,8 +251,6 @@ void MainWindow::on_pb_Vigener_RasShifr_clicked()
     ui->te_Vigener_out->setPlainText(_shifrVigener.makeRasShifr(ui->te_Vigener_in->toPlainText().toLower(),ui->te_Vigener_code->toPlainText().toLower()));
 }
 
-
-
 void MainWindow::on_cb_Vigener_lanq_currentIndexChanged(int index)
 {
     _shifrVigener.setlanquage(index);
@@ -239,8 +273,6 @@ void MainWindow::on_pb_Permutation_RasShifr_clicked()
 {
     ui->te_Permutation_out->setPlainText(_tablePerm.makeRasShifr(ui->te_Permutation_in->toPlainText().toLower(),ui->te_Permutation_code->toPlainText().toLower()));
 }
-
-
 
 void MainWindow::on_pb_Rsa_genKey_clicked()
 {
@@ -314,3 +346,119 @@ void MainWindow::on_pb_Rsa_saveResult_clicked()
     }
 }
 
+void MainWindow::setShenonFanoTableWidgetStyle(int rowCount)
+{
+    //tableParams
+    ui->tw_ShenonFano->setColumnCount(3);
+    ui->tw_ShenonFano->setRowCount(rowCount);
+    ui->tw_ShenonFano->setShowGrid(true); // Включаем сетку
+    // Разрешаем выделение только одного элемента
+    ui->tw_ShenonFano->setSelectionMode(QAbstractItemView::SingleSelection);
+    // Разрешаем выделение построчно
+    ui->tw_ShenonFano->setSelectionBehavior(QAbstractItemView::SelectRows);
+    // Устанавливаем заголовки колонок
+    ui->tw_ShenonFano->setHorizontalHeaderLabels(QStringList()<<trUtf8("char")
+                                                            <<trUtf8("probability")
+                                                            <<trUtf8("code")
+                                                                     );
+    // Растягиваем последнюю колонку на всё доступное пространство
+    ui->tw_ShenonFano->horizontalHeader()->setStretchLastSection(true);
+    // Скрываем колонку под номером 0
+   // ui->tw_ShenonFano->hideColumn(0);
+}
+
+void MainWindow::on_pb_ShenonFano_fillTable_clicked()
+{
+    QString _uniqstr= _ShenonFano.getStrOfUniqueChars(ui->te_ShenonFano_in->toPlainText());
+    setShenonFanoTableWidgetStyle(_uniqstr.size());
+    codeCharShenonFano=new QString[_uniqstr.size()];//массив qstring для кодов char
+    probabilityShenon=_ShenonFano.getProbabilityOfChars(ui->te_ShenonFano_in->toPlainText(),_uniqstr);//получение вероятностей
+    reqursiaShenon(0,_uniqstr.size()-1,true);//определние кодов
+    //заполнение таблицы
+    for (int i = 0; i < _uniqstr.size(); ++i) {
+        ui->tw_ShenonFano->setItem(i,0,new QTableWidgetItem( QString(_uniqstr[i])));
+        ui->tw_ShenonFano->setItem(i,1,new QTableWidgetItem(QString::number(probabilityShenon[i],'g',4)));
+        ui->tw_ShenonFano->setItem(i,2,new QTableWidgetItem(codeCharShenonFano[i]));
+    }
+}
+
+void MainWindow::reqursiaShenon(int start, int end,bool topORbot)
+{
+        if(start<end)
+        {
+            double schet1=0,schet2=0;
+            //подсчет середины
+            int middle;
+            for(int i=start;i<end;i++)
+            {
+            schet1+=probabilityShenon[i];
+            }
+            schet2=probabilityShenon[end];
+            middle= end;
+            while (schet1>(schet2+probabilityShenon[end]/2) && end-start!=1 )
+            {
+            middle--;
+            schet1-= probabilityShenon[middle];
+            schet2+=probabilityShenon[middle];
+            }
+            //0 && 1 top/bot
+            for(int i=start;i<middle;i++)
+            {
+                setCodeCharShenonFano(i,true);
+             }
+            for(int i=middle;i<=end;i++)
+            {
+                setCodeCharShenonFano(i,false);
+            }
+            //рекурсии верхней ветки и нижней
+            reqursiaShenon(start,middle-1,true);
+            reqursiaShenon(middle,end,false);
+        }
+}
+
+void MainWindow::setCodeCharShenonFano(int indexStr,bool oneORzero)
+{
+    if(oneORzero)
+        codeCharShenonFano[indexStr]+="1";
+    else
+        codeCharShenonFano[indexStr]+="0";
+}
+
+void MainWindow::on_pb_ParityCheck_convert_clicked()
+{
+    ui->te_ParityCheck_out->setPlainText(_parityCheck.getBinaryCode(ui->te_ParityCheck_in->toPlainText()));
+}
+
+void MainWindow::on_pb_ParityCheck_Reconvert_clicked()
+{
+    ui->te_ParityCheck_out->setPlainText(_parityCheck.getStrFromBinaryCode(ui->te_ParityCheck_in->toPlainText()));
+}
+
+void MainWindow::on_rb_TIN_individual_clicked()
+{
+    ui->le_TIN_in->setInputMask("0_0_0_0_0_0_0_0_0_0");
+    ui->le_TIN_out->setInputMask("0_0_0_0_0_0_0_0_0_0_0_0");
+    ui->le_TIN_out->clear();
+}
+
+void MainWindow::on_rb_TIN_entity_clicked()
+{
+    ui->le_TIN_in->setInputMask("0_0_0_0_0_0_0_0_0");
+    ui->le_TIN_out->setInputMask("0_0_0_0_0_0_0_0_0_0");
+    ui->le_TIN_out->clear();
+}
+
+void MainWindow::on_pb_TIN_makeNum_clicked()
+{
+    QString str=ui->le_TIN_in->text();
+    str.remove(QRegExp("_"));
+    if(str=="")
+        messError("Enter numbers or make Random");
+    else
+        ui->le_TIN_out->setText(_Tin.getFullTin(str));
+}
+
+void MainWindow::on_pb_TIN_makeRandom_clicked()
+{
+    ui->le_TIN_out->setText(_Tin.getFullTin("",ui->rb_TIN_individual->isChecked()));
+}

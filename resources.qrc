@@ -9,5 +9,8 @@
         <file>resources/img/viginer.jpeg</file>
         <file>resources/img/permutation.png</file>
         <file>resources/img/rsa.png</file>
+        <file>resources/img/shenon.jpg</file>
+        <file>resources/img/TIN.png</file>
+        <file>resources/img/nalog.jpg</file>
     </qresource>
 </RCC>

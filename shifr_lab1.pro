@@ -18,23 +18,29 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    paritycheck.cpp \
     rsa.cpp \
+    shenonfano.cpp \
     shifrCaeser.cpp \
     shifrtrithemius.cpp \
     shifrvigenera.cpp \
     stringhelper.cpp \
     stylehelper.cpp \
-    tablepermutation.cpp
+    tablepermutation.cpp \
+    tin.cpp
 
 HEADERS += \
     mainwindow.h \
+    paritycheck.h \
     rsa.h \
+    shenonfano.h \
     shifrCaeser.h \
     shifrtrithemius.h \
     shifrvigenera.h \
     stringhelper.h \
     stylehelper.h \
-    tablepermutation.h
+    tablepermutation.h \
+    tin.h
 
 FORMS += \
     mainwindow.ui
